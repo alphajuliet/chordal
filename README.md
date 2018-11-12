@@ -1,27 +1,33 @@
-Welcome to Glitch
-=================
+# Chordal
 
-Click `Show` in the header to see your app live. Updates to your code will instantly deploy and update live.
+A music API based around chords. 
 
-**Glitch** is the friendly community where you'll build the app of your dreams. Glitch lets you instantly create, remix, edit, and host an app, bot or site, and you can invite collaborators or helpers to simultaneously edit code with you.
+**WORK IN PROGRESS**
 
-Find out more [about Glitch](https://glitch.com/about).
+## API 
+
+### List available chords
+
+`GET /chords` 
+
+Return the available chords names, and alternatives.
+
+### Return chord notes
+
+`GET /chord/<note>/<chord>`
+
+* `note`: the name of a note, e.g C, F#, Ab
+* `chord`: a named chord, e.g. min, maj7, sus4
+
+Examples
+
+* `GET /chord/E/min`
+* `GET /chord/Gb/maj7`
+
+Notes
+
+* Double sharps and flats (e.g. F##) , and naturals are not handled.
 
 
-Your Project
-------------
 
-On the front-end,
-- edit `public/client.js`, `public/style.css` and `views/index.html`
-- drag in `assets`, like images or music, to add them to your project
-
-On the back-end,
-- your app starts at `server.js`
-- add frameworks and packages in `package.json`
-- safely store app secrets in `.env` (nobody can see this but you and people you invite)
-
-
-Made by [Glitch](https://glitch.com/)
--------------------
-
-\ ゜o゜)ノ
+Project [i:513761]

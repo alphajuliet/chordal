@@ -53,7 +53,7 @@ const chord_names = () => R.keys(chords)
 
 exports = {
   notes: notes,
-  chords: chords
+  chord_names: chord_names
 }
 
 // The End

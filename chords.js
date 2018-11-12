@@ -46,14 +46,16 @@ const chords = {
     "min9":    [0, 3, 7, 10, 14]  // minor 9th (C-E♭-G-B♭-D)
 }
 
-const chord_names = () => R.keys(chords)
+const chord_names = () => {
+  return {'chords': R.keys(chords)}
+}
 
 
 // ---------------------------------
 
-exports = {
+module.exports = Object.freeze({
   notes: notes,
   chord_names: chord_names
-}
+})
 
 // The End

@@ -18,7 +18,9 @@ app.get('/', function(request, response) {
 });
 
 app.get('/chords', (req, res) => {
-  res.json(ch.chord_names)
+  const n = ch.chord_names()
+  console.log(n)
+  res.json(n)
 })
 
 // listen for requests :)

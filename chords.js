@@ -36,7 +36,7 @@ const chords = {
     "minmaj7": [0, 3, 7, 11],     // minor/major 7th (C-E♭-G-B)
     "dim":     [0, 3, 6],         // diminished (C-E♭-G♭)
     "aug":     [0, 4, 8],         // augmented (C-E-G♯)
-    "dim7":    [0, 3, 6, 9],      // diminished 7th (C-E♭-G♭-Bbb)
+    "dim7":    [0, 3, 6, 9],      // diminished 7th (C-E♭-G♭-B𝄫)
     "aug7":    [0, 4, 8, 10],     // augmented 7th (C-E-G♯-B♭)
     "hdim7":   [0, 3, 6, 10],     // half-diminished 7th (C-E♭-G♭-B♭)
     "maj6":    [0, 4, 7, 9],      // major 6th (C-E-G-A)

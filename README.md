@@ -1,6 +1,6 @@
-# Chordal
+# Chordal API
 
-A music API based around chords. 
+A musical API focusing on chords. 
 
 **WORK IN PROGRESS**
 

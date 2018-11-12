@@ -46,10 +46,15 @@ const chords = [
 	{ name: "min9",    notes: [0, 3, 7, 10, 14], description: "minor 9th (C-E♭-G-B♭-D)" },
 ]
 
+// Look up the note name from the number
 const noteLookup = (n) => {
-  
+  R.head(notes[n])
 }
 
+// Map a list of integers to note names
+const chordToNotes = (lst) => {
+  R.map(noteLookup, lst) 
+}
 
 // ---------------------------------
 

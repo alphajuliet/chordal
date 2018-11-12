@@ -19,6 +19,7 @@ app.get('/', function(request, response) {
 
 app.get('/chords', (req, res) => {
   console.log('/chords')
+  // console.log(ch.chords)
 })
 
 // listen for requests :)

@@ -4,7 +4,9 @@
 
 const R = require('ramda')
 
+// ---------------------------------
 // Vocabulary of note names
+
 const all_notes = [
   ["C", "B#"], 
   ["C#", "Db"], 
@@ -20,26 +22,31 @@ const all_notes = [
   ["B", "Cb"]
 ]
 
+// ---------------------------------
 // Database of chords
-// @@TODO Add more chords
+// See https://en.wikipedia.org/wiki/Chord_names_and_symbols_(popular_music)
+// @@TODO Add alternative chord names
+
 const chords = {
-    "maj":     [0, 4, 7],        // major
-    "min":     [0, 3, 7],        // minor
-    "7":       [0, 4, 7, 10],    // 7th
-    "min7":    [0, 3, 7, 10],    // minor 7th
-    "maj7":    [0, 4, 7, 11],    // major 7th
-    "minmaj7": [0, 3, 7, 11],    // minor/major 7th
-    "dim":     [0, 3, 6],        // diminished
-    "aug":     [0, 4, 8],        // augmented
-    "dim7":    [0, 3, 6, 9],     // diminished 7th
-    "aug7":    [0, 4, 8, 10],    // augmented 7th
-    "maj6":    [0, 4, 7, 9],     // major 6th
-    "sus2":    [0, 2, 7],        // suspended 2nd
-    "sus4":    [0, 5, 7],        // suspended 4th
+    "maj":     [0, 4, 7],         // major (C-E-G)
+    "min":     [0, 3, 7],         // minor (C-Eb-G)
+    "7":       [0, 4, 7, 10],     // 7th (C-E-G-Bb)
+    "min7":    [0, 3, 7, 10],     // minor 7th (C-Eb-G-Bb)
+    "maj7":    [0, 4, 7, 11],     // major 7th (C-E-G-B)
+    "minmaj7": [0, 3, 7, 11],     // minor/major 7th (C-Eb-G-B)
+    "dim":     [0, 3, 6],         // diminished (C-Eb-Gb)
+    "aug":     [0, 4, 8],         // augmented (C-E-G#)
+    "dim7":    [0, 3, 6, 9],      // diminished 7th (C-Eb-Gb-Bbb)
+    "aug7":    [0, 4, 8, 10],     // augmented 7th (C-E-G#-Bb)
+    "hdim7":   [0, 3, 6, 10],     // half-diminished 7th (C-Eb-Gb-Bb)
+    "maj6":    [0, 4, 7, 9],      // major 6th (C-E-G-A)
+    "sus2":    [0, 2, 7],         // suspended 2nd (C-D-G)
+    "sus4":    [0, 5, 7],         // suspended 4th (C-F-G)
+    "maj9":    [0, 4, 7, 11, 14], // major 9th (C-E-G-B-D)
+    "min9":    [0, 3, 7, 10, 14]  // minor 9th (C-Eb-G-Bb-D)
 }
 
 const chord_names = () => R.keys(chords)
-
 
 exports = {
    chord_names 

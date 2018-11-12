@@ -1,13 +1,10 @@
 // server.js
-// where your node app starts
+// andrewj 2018-11-13
 
-// init project
 const express = require('express')
 const ch = require('./chords.js')
-const app = express()
 
-// we've started you off with Express, 
-// but feel free to use whatever libs or frameworks you'd like through `package.json`.
+const app = express()
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
@@ -17,13 +14,16 @@ app.get('/', function(request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
+
 app.get('/chords', (req, res) => {
-  const n = ch.chord_names()
-  console.log(n)
-  res.json(n)
+  console.log('GET /chords')
+  res.json(ch.chords)
 })
+
 
 // listen for requests :)
 const listener = app.listen(process.env.PORT, function() {
   console.log('Your app is listening on port ' + listener.address().port);
 });
+
+// The End

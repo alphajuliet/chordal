@@ -27,6 +27,7 @@ Examples
 Notes
 
 * Double sharps and flats (e.g. F##) , and naturals are not handled.
+* Unicode characters not handled (♯, ♭, ♮) yet
 
 
 

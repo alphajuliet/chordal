@@ -31,7 +31,7 @@ app.get('/chord/:note/:chord', (req, res) => {
 })
 
 app.get('/test/:x', (req, res) => {
-  const x = req.params.x
+  const x = Number(req.params.x)
   
   console.log(`Test: ${x}`)
   res.json(ch.transpose(x, "G"))

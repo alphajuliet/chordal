@@ -4,6 +4,10 @@
 
 const R = require('ramda')
 
+// Type aliases:
+// type Note = String
+// type Chord = { String, [Note], String }
+
 // ---------------------------------
 // Vocabulary of note names
 // scale: [[Note]]
@@ -26,7 +30,7 @@ const scale = [
 // Database of chords
 // See https://en.wikipedia.org/wiki/Chord_names_and_symbols_(popular_music)
 // @@TODO Add alternative chord names
-
+// chords :: [Chord]
 const chords = [
 	{ name: "maj",     notes: [0, 4, 7], 				 description: "major (C-E-G)" },
 	{ name: "min",     notes: [0, 3, 7],         description: "minor (C-E♭-G)" },
@@ -48,7 +52,7 @@ const chords = [
 
 // ---------------------------------
 // Look up the note number from the name
-// noteLookup :: String -> Integer
+// noteLookup :: Note -> Integer
 const noteLookup = (noteName) => {
   return R.findIndex(R.contains(noteName))(scale)
 }
@@ -59,11 +63,11 @@ const chordToNotes = (lst) => {
   R.map(n => R.nth(n, scale), lst) 
 }
 
-// Transpose 
-// transpose :: Integer -> Note -> Note
+// Transpose
+// transpose :: Integer -> Note -> [Note]
 const transpose = R.curry((n, note) => {
   const a = noteLookup(note)
-  const b = R.modulo(a + n, 12)
+  const b = R.modulo(a + n, R.length(scale))
   return R.nth(b, scale)
 })
 

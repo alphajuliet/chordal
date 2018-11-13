@@ -59,7 +59,7 @@ const all_chords = [
 const noteToNum = (noteName) => {
   const res = R.findIndex(R.contains(noteName))(scale)
   if (res < 0)
-    console.error(`### Error: ${noteName} not found)
+    console.error(`### Error: ${noteName} not found`)
   else
     return res
 }

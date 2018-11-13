@@ -1,5 +1,6 @@
 dependencies:
   express: 4.16.3
+  folktale: 2.3.1
   markdown-it: 8.4.2
   ramda: 0.25.0
 packages:
@@ -164,6 +165,10 @@ packages:
       node: '>= 0.8'
     resolution:
       integrity: sha512-Y1GUDo39ez4aHAw7MysnUD5JzYX+WaIj8I57kO3aEPT1fFRL4sr7mjei97FgnwhAyyzRYmQZaTHb2+9uZ1dPtg==
+  /folktale/2.3.1:
+    dev: false
+    resolution:
+      integrity: sha512-x16IvpoFrLxOYbAC4G/ban4eWOGoREcrfaVSiTsDknrRYHMe+W4XUekCYA6w4YyjQpcL8nsNt4A5EUUKjFSpRg==
   /forwarded/0.1.2:
     dev: false
     engines:
@@ -412,5 +417,6 @@ shrinkwrapMinorVersion: 9
 shrinkwrapVersion: 3
 specifiers:
   express: ^4.16.3
+  folktale: ^2.3.0
   markdown-it: ^8.4.2
   ramda: ^0.25.0

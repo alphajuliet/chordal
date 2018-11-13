@@ -2,7 +2,9 @@
 // Define all the chord stuff
 // andrewj 2018-11-12
 
-const R = require('ramda')
+// Imports
+const R = require('ramda'),
+      Maybe = require('folktale/maybe')
 
 // Type aliases:
 // type Note = String

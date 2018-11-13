@@ -1,8 +1,7 @@
 # Chordal API
 
-A musical API focusing on chords. 
+A simple musical API focusing on chords. For a list of the available chords, see the first API call below.
 
-**WORK IN PROGRESS**
 
 ## API 
 
@@ -10,13 +9,13 @@ A musical API focusing on chords.
 
 `GET /chords` 
 
-Return the available chords names, and alternatives.
+Return the available chords names, their constituent semitones, and descriptions.
 
 ### Return chord notes
 
 `GET /chord/<note>/<chord>`
 
-Return the notes in the requested chord.
+Return the notes in the requested chord, including alternative note names (e.g. C♯ vs D♭).
 
 
 #### Arguments
@@ -27,7 +26,7 @@ Return the notes in the requested chord.
 #### Examples
 
 * `GET /chord/E/min`
-* `GET /chord/Gb/maj7`
+* `GET /chord/Gb/maj7` ⇒ `{"chord":"Gbmaj7","transpose":0,"notes":[["F#","Gb"],["A#","Bb"],["C#","Db"],["F","E#"]]}`
 
 #### Notes
 

@@ -42,7 +42,7 @@ app.get('/chords', (req, res) => {
 app.get('/chord/:note/:chord', (req, res) => {
   
   // Get parameters
-  const note = R.toUpper(req.params.note)
+  const note = req.params.note
   const chord = R.toLower(req.params.chord)
   const tr = Number(url.parse(req.url, true).query.transpose || 0)
   

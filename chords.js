@@ -50,8 +50,8 @@ const chords = [
 // Look up the note number from the name
 // noteLookup :: String -> Integer
 const noteLookup = (noteName) => {
-  const f = (x) => R.find(R.contains(noteName, R.prop("notes", x)), scale)
-  return f(noteName)
+  const isInNotes = (e, lst) => R.find(R.prop("notes", lst), e)
+  return R.find(R.prop("notes", , scale)
 }
 
 // Map a list of integers to note names

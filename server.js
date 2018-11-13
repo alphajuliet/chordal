@@ -56,8 +56,8 @@ app.get('/test/:x', (req, res) => {
   const x = Number(req.params.x)
   
   console.log(`Test: ${x}`)
-  // res.json(ch.transpose(x, "G"))
-  res.end("Test")
+  res.json(ch.test(x))
+  // res.end("Test")
 })
 
 

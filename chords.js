@@ -6,8 +6,9 @@
 const R = require('ramda'),
       Maybe = require('folktale/maybe')
 
-// Maybe-enabled functions
-const 
+// Maybe-enhanced functions
+const mFind = (...all) => Maybe.fromNullable(R.find(...all))
+
 
 // Type aliases:
 // type Note = String
@@ -84,10 +85,10 @@ const transposeNote = R.curry(
 
 
 // Look up the chord numbers from the name
-// chordLookup :: [Chord] -> String -> [Integer]
+// chordLookup :: [Chord] -> String -> Maybe [Integer]
 const chordLookup = R.curry(
-  (chordList, chordName) => R.compose(R.prop('notes'), 
-                                      R.find(R.propEq('name', chordName)))(chordList))
+  (chordList, chordName) => R.composeK(R.prop('notes'), 
+                                      mFind(R.propEq('name', chordName)))(chordList))
 
 
 // ---------------------------------
@@ -114,11 +115,21 @@ const getChord = (rootNote, chord, tr = 0) => {
   }
 }
 
+const test = (x) => {
+  
+  const xFind = (...all) => Maybe.fromNullable(R.find(...all))
+  
+  const lst = [0, 1, 2, 3]
+  return xFind(x => x == 5, lst)
+}
+
+
 // ---------------------------------
 module.exports = Object.freeze({ 
   scale, 
   all_chords, 
-  getChord
+  getChord,
+  test
 })
 
 // The End

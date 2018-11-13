@@ -1,10 +1,11 @@
 // server.js
 // andrewj 2018-11-13
 
-const express = require('express')
+const express = require('express'),
 const url = require('url')
-const markdown = require('markdown').markdown
+const md = require('markdown-it')()
 const ch = require('./chords.js')
+
 
 const app = express()
 
@@ -17,7 +18,7 @@ app.get('/', function(request, response) {
 });
 
 app.get('/README', function (req, res) {
-  res.send(__dirname + '/README.md') 
+  res.send(md.render(__dirname + '/README.md'))
 })
 
 // Get all chords

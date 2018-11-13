@@ -7,7 +7,7 @@ const R = require('ramda')
 // ---------------------------------
 // Vocabulary of note names
 
-const notes = [
+const scale = [
   ["C", "B#"], 
   ["C#", "Db"], 
   ["D"], 
@@ -46,29 +46,32 @@ const chords = [
 	{ name: "min9",    notes: [0, 3, 7, 10, 14], description: "minor 9th (C-E♭-G-B♭-D)" },
 ]
 
+// ---------------------------------
 // Look up the note name from the number
 const noteLookup = (n) => {
-  R.compose(R.head, R.nth(n, notes))
+  R.compose(R.head, R.nth(n, scale))
 }
 
 // Map a list of integers to note names
 const chordToNotes = (lst) => {
-  R.map((n) => R.nth(n, notes), lst) 
+  R.map(n => R.nth(n, scale), lst) 
 }
+
+// ---------------------------------
+// Get a chord
 
 const getChord = (note, chord) => {
   const match = R.find(R.propEq('name', chord), chords)
-  const notes = R.compose(chordToNotes, R.prop('notes', match))
+  const n = R.map(elt => R.nth(elt, scale), R.prop('notes', match))
   
   return { 
     "chord": `${note}${chord}`, 
-    "notes": notes 
+    "notes": n 
   }
 }
 
 
-
 // ---------------------------------
-module.exports = Object.freeze({ notes, chords, getChord })
+module.exports = Object.freeze({ scale, chords, getChord })
 
 // The End

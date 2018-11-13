@@ -6,6 +6,7 @@
 const R = require('ramda'),
       Maybe = require('folktale/maybe')
 
+
 // Maybe-enhanced functions
 const mFind = R.curry((e, lst) => {
   const x = R.find(e, lst)
@@ -15,7 +16,15 @@ const mFind = R.curry((e, lst) => {
     return Maybe.Just(x)
 })
 
-const mProp = (...all) => Maybe.fromNullable(R.prop(...all))
+const mProp = R.curry((name, value) => {
+  const x = R.prop(name, value)
+  if (x == undefined)
+    return Maybe.Nothing()
+  else
+    return Maybe.Just(x)
+})
+
+const mProp2 = R.curry((f) => Maybe.fromNullable(f))
 
 
 // Type aliases:
@@ -126,7 +135,7 @@ const getChord = (rootNote, chord, tr = 0) => {
 const test = (x) => {
   const chordLookup = R.curry(
     (chordList, chordName) => 
-      R.composeK(mProp('notes'), 
+      R.composeK(mProp2('notes'), 
                  mFind(R.propEq('name', chordName)))(chordList))
   
   return { "result": chordLookup(all_chords, 'min') }

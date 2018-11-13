@@ -36,7 +36,7 @@ const chords = [
 	{ name: "minmaj7", notes: [0, 3, 7, 11],     description: "minor/major 7th (C-E♭-G-B)" },
 	{ name: "dim",     notes: [0, 3, 6],         description: "diminished (C-E♭-G♭)" },
 	{ name: "aug",     notes: [0, 4, 8],         description: "augmented (C-E-G♯)" },
-	{ name: "dim7",    notes: [0, 3, 6, 9],      description: "diminished 7th (C-E♭-G♭-B𝄫)" },
+	{ name: "dim7",    notes: [0, 3, 6, 9],      description: "diminished 7th (C-E♭-G♭-B♭♭)" },
 	{ name: "aug7",    notes: [0, 4, 8, 10],     description: "augmented 7th (C-E-G♯-B♭)" },
 	{ name: "hdim7",   notes: [0, 3, 6, 10],     description: "half-diminished 7th (C-E♭-G♭-B♭)" },
 	{ name: "maj6",    notes: [0, 4, 7, 9],      description: "major 6th (C-E-G-A)" },
@@ -47,9 +47,9 @@ const chords = [
 ]
 
 // ---------------------------------
-// Look up the note name from the number
-const noteLookup = (n) => {
-  R.compose(R.head, R.nth(n, scale))
+// Look up the note number from the name
+const noteLookup = () => {
+  const x = R.find
 }
 
 // Map a list of integers to note names

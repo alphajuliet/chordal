@@ -19,7 +19,7 @@ app.get('/', function(request, response) {
 // Get all chords
 app.get('/chords', (req, res) => {
   console.log('GET /chords')
-  res.json(ch.chords)
+  res.json(ch.all_chords)
 })
 
 // Get a given chord

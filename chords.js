@@ -31,7 +31,7 @@ const scale = [
 // See https://en.wikipedia.org/wiki/Chord_names_and_symbols_(popular_music)
 // @@TODO Add alternative chord names
 // chords :: [Chord]
-const chords = [
+const all_chords = [
 	{ name: "maj",     notes: [0, 4, 7], 				 description: "major (C-E-G)" },
 	{ name: "min",     notes: [0, 3, 7],         description: "minor (C-E♭-G)" },
 	{ name: "7",       notes: [0, 4, 7, 10],     description: "7th (C-E-G-B♭)" },
@@ -72,27 +72,32 @@ const transpose = R.curry((n, note) => {
 })
 
 
-
-
+// Look up the chord numbers from the name
+// chordLookup :: [Chord] -> String -> [Integer]
+const chordLookup = R.curry((chordList, chordName) =>
+  R.compose(R.prop('notes'), R.find(R.propEq('name', chordName)))(chordList))
 
 // ---------------------------------
 // Get a chord
 // getChord :: Note -> Chord -> { String, [Note] }
-const getChord = (note, chord) => {
+const getChord = (rootNote, chord) => {
   
   // Get the chord note nums
-  const match = R.find(R.propEq('name', chord), chords)
-  let nums = R.prop('notes', match)
+  const curr_nums = chordLookup(all_chords, chord)
   
   // Shift by the root note
-  const baseNum = noteLookup(note)
-  nums = R.map(x => R.modulo(x + baseNum, 12), nums)
+  const new_nums = R.map(x => R.modulo(x + noteLookup(rootNote), 12), curr_nums)
   
   // Convert to note names
-  const n = R.map(elt => R.nth(elt, scale), nums)
+  //const n = R.map(elt => R.nth(elt, scale), new_nums)
+  
+  const n = R.compose( 
+    R.map(elt => R.nth(elt, scale)),
+    R.map(x => R.modulo(x + noteLookup(rootNote), 12)),
+    chordLookup(all_chords))(chord)
   
   return { 
-    "chord": `${note}${chord}`, 
+    "chord": `${rootNote}${chord}`, 
     "notes": n 
   }
 }
@@ -101,7 +106,7 @@ const getChord = (note, chord) => {
 // ---------------------------------
 module.exports = Object.freeze({ 
   scale, 
-  chords, 
+  all_chords, 
   getChord, 
   noteLookup,
   transpose

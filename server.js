@@ -30,6 +30,14 @@ app.get('/chord/:note/:chord', (req, res) => {
   res.json(ch.getChord(note, chord))
 })
 
+app.get('/test/:x', (req, res) => {
+  const x = req.params.x
+  
+  console.log(`Test: ${x}`)
+  res.json(ch.noteLookup(x))
+})
+
+
 
 // listen for requests :)
 const listener = app.listen(process.env.PORT, function() {

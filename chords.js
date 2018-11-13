@@ -3,7 +3,7 @@
 // andrewj 2018-11-12
 
 // Imports
-const R = require('ramda-maybe'),
+const R = require('ramda'),
       Maybe = require('folktale/maybe')
 
 
@@ -57,35 +57,28 @@ const all_chords = [
 // Look up the note number from the name
 // noteLookup :: Note -> Integer
 const noteToNum = (noteName) => {
-  return R.findIndex(R.contains(noteName))(scale)
+  const res = R.findIndex(R.contains(noteName))(scale)
+  if (res < 0)
+    console.error(`### Error: ${noteName} not found)
+  else
+    return res
 }
 
-const numToNote = (n) =>
-  R.nth(n, scale)
-
-// Map a list of integers to note names
-// chordToNotes :: [Integer] -> [Note]
-const chordToNotes = (lst) => {
-  R.map(n => R.nth(n, scale), lst) 
-}
-
+// numToNote :: Integer -> [Note]
+const numToNote = (n) => R.nth(n, scale)
 
 // ---------------------------------
 // Transpose a note by n
 const transpose = R.curry(
   (n, root) => R.modulo(root + n, 12))
 
-// Transpose a note
-// transpose :: Integer -> Note -> [Note]
-const transposeNote = R.curry(
-  (n, note) => R.compose(numToNote, transpose(n), noteToNum)(note))
-
-
+// ---------------------------------
 // Look up the chord numbers from the name
 // chordLookup :: [Chord] -> String -> Maybe [Integer]
 const chordLookup = R.curry(
-  (chordList, chordName) => R.compose(R.prop('notes'), 
-                                      R.find(R.propEq('name', chordName)))(chordList))
+  (chordList, chordName) => 
+    R.compose(R.prop('notes'),
+              R.find(R.propEq('name', chordName)))(chordList))
 
 
 // ---------------------------------

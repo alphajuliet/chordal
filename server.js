@@ -34,7 +34,7 @@ app.get('/test/:x', (req, res) => {
   const x = req.params.x
   
   console.log(`Test: ${x}`)
-  res.json(ch.noteLookup(x))
+  res.json(ch.transpose(x, "G"))
 })
 
 

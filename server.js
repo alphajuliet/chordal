@@ -52,11 +52,11 @@ app.get('/chord/:note/:chord', (req, res) => {
 
 // -------------------------------
 // Test query
-app.get('/test/:x', (req, res) => {
-  const x = Number(req.params.x)
+app.get('/test', (req, res) => {
+  //const x = Number(req.params.x)
   
-  console.log(`Test: ${x}`)
-  res.json(ch.test(x))
+  //console.log(`Test: ${x}`)
+  res.json(ch.test())
   // res.end("Test")
 })
 

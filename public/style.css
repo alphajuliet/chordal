@@ -10,7 +10,8 @@ body {
 }
 
 h1 {
-  color: #373fff;
+  color: #CC3399;
+  border-bottom: 1px solid #666;
 }
 
 .bold {

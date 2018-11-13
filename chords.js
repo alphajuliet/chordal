@@ -85,23 +85,28 @@ const chordLookup = R.curry(
 // Get a chord, with optional transpose
 // getChord :: Note -> Chord -> { String, Integer, [Note] }
 const getChord = (rootNote, chord, tr = 0) => {
-  
+    
   // 1. Convert chord to list of notes
   // 2. Transpose to the new root note
   // 3. Transpose by the given parameter
   // 4. Convert to note names
   
-  const notes = R.compose( 
-    R.map(numToNote),
-    R.map(transpose(tr)),
-    R.map(transpose(noteToNum(rootNote))),
-    chordLookup(all_chords))
-  (chord)
-  
-  return { 
-    "chord": `${rootNote}${chord}`, 
-    "transpose": tr,
-    "notes": notes
+  try {
+    const notes = R.compose( 
+      R.map(numToNote),
+      R.map(transpose(tr)),
+      R.map(transpose(noteToNum(rootNote))),
+      chordLookup(all_chords))
+    (chord)
+
+    return { 
+      "chord": `${rootNote}${chord}`, 
+      "transpose": tr,
+      "notes": notes
+    }
+  }
+  catch (err) {
+    return { "error": `${err}` }
   }
 }
 

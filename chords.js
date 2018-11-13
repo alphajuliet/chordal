@@ -53,7 +53,7 @@ const all_chords = [
 // ---------------------------------
 // Look up the note number from the name
 // noteLookup :: Note -> Integer
-const noteLookup = (noteName) => {
+const noteToNum = (noteName) => {
   return R.findIndex(R.contains(noteName))(scale)
 }
 
@@ -75,7 +75,7 @@ const transpose = R.curry(
 // Transpose a note
 // transpose :: Integer -> Note -> [Note]
 const transposeNote = R.curry(
-  (n, note) => R.compose(numToNote, transpose(n), noteLookup)(note))
+  (n, note) => R.compose(numToNote, transpose(n), noteToNum)(note))
 
 
 // Look up the chord numbers from the name
@@ -90,14 +90,15 @@ const chordLookup = R.curry(
 // getChord :: Note -> Chord -> { String, [Note] }
 const getChord = (rootNote, chord, tr = 0) => {
   
-  // 1. Look up chord note nums
-  // 2. Transpose by the base note
-  // 3. Convert to note names
+  // 1. Convert chord to list of notes
+  // 2. Transpose to the new root note
+  // 3. Transpose by the given parameter
+  // 4. Convert to note names
   
   const notes = R.compose( 
     R.map(numToNote),
     R.map(transpose(tr)),
-    R.map(transpose(noteLookup(rootNote))),
+    R.map(transpose(noteToNum(rootNote))),
     chordLookup(all_chords))
   (chord)
   
@@ -112,9 +113,7 @@ const getChord = (rootNote, chord, tr = 0) => {
 module.exports = Object.freeze({ 
   scale, 
   all_chords, 
-  getChord, 
-  noteLookup,
-  transpose
+  getChord
 })
 
 // The End

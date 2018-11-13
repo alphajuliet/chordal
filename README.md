@@ -21,7 +21,7 @@ Return the notes in the requested chord.
 
 #### Arguments
 
-* `note`: the name of a note, e.g C, F#, Ab
+* `note`: the name of a note, e.g C, F#, Ab, E
 * `chord`: a named chord, e.g. min, maj7, sus4
 
 #### Examples
@@ -31,7 +31,7 @@ Return the notes in the requested chord.
 
 #### Notes
 
-* Double sharps and flats (e.g. Abb) , and naturals are not handled
+* Double sharps and flats (e.g. A♭♭) , and naturals are not handled
 * Unicode characters not handled (♯, 𝄪, ♭, 𝄫, ♮)
 
 ### Transpose

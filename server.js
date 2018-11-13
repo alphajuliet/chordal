@@ -1,13 +1,14 @@
 // server.js
 // andrewj 2018-11-13
 
-const express = require('express'),
-const url = require('url')
-const md = require('markdown-it')()
-const ch = require('./chords.js')
 
-
-const app = express()
+// Imports
+const fs = require('fs'),
+      express = require('express'),
+      app = express(),
+      url = require('url'),
+      md = require('markdown-it')(),
+      ch = require('./chords.js')
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
@@ -18,7 +19,14 @@ app.get('/', function(request, response) {
 });
 
 app.get('/README', function (req, res) {
-  res.send(md.render(__dirname + '/README.md'))
+  fs.readFile(__dirname + '/README.md', 'utf8', (err, data) => {
+    if (err) 
+      console.error(err)
+    else {
+      console.log(data)
+      res.end(md.render(data))
+    }
+  })
 })
 
 // Get all chords

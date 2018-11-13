@@ -24,7 +24,15 @@ const mProp = R.curry((name, value) => {
     return Maybe.Just(x)
 })
 
-const mProp2 = R.curry((f) => Maybe.fromNullable(f))
+const mWrap = (f, ...all) => {
+  const x = f(...all)
+  if (x == undefined)
+    return Maybe.Nothing()
+  else
+    return Maybe.Just(x)
+}
+
+const mProp2 = R.curry((...all) => mWrap(R.prop, ...all))
 
 
 // Type aliases:

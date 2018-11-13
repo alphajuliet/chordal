@@ -6,6 +6,9 @@
 const R = require('ramda'),
       Maybe = require('folktale/maybe')
 
+// Maybe-enabled functions
+const 
+
 // Type aliases:
 // type Note = String
 // type Chord = { String, [Note], String }

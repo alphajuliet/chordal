@@ -47,7 +47,8 @@ app.get('/chord/:note/:chord', (req, res) => {
   const tr = Number(url.parse(req.url, true).query.transpose || 0)
   
   console.log(`Chord: ${note}${chord}, transpose by ${tr}`)
-  res.json(ch.getChord(note, chord, tr))
+  const json = ch.getChord(note, chord, tr)
+  res.json(json.error ? 400 : 200, json)
 })
 
 // -------------------------------

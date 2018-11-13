@@ -48,17 +48,17 @@ const chords = [
 
 // Look up the note name from the number
 const noteLookup = (n) => {
-  R.head(notes[n])
+  R.compose(R.head, R.nth(n, notes))
 }
 
 // Map a list of integers to note names
 const chordToNotes = (lst) => {
-  R.map(noteLookup, lst) 
+  R.map((n) => R.nth(n, notes), lst) 
 }
 
 const getChord = (note, chord) => {
   const match = R.find(R.propEq('name', chord), chords)
-  const notes = chordToNotes(R.prop('notes', match))
+  const notes = R.compose(chordToNotes, R.prop('notes', match))
   
   return { 
     "chord": `${note}${chord}`, 
@@ -66,12 +66,9 @@ const getChord = (note, chord) => {
   }
 }
 
-// ---------------------------------
 
-module.exports = Object.freeze({
-  notes,
-  chords,
-  getChord
-})
+
+// ---------------------------------
+module.exports = Object.freeze({ notes, chords, getChord })
 
 // The End

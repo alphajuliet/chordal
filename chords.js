@@ -49,9 +49,9 @@ const chords = [
 // ---------------------------------
 // Look up the note number from the name
 // noteLookup :: String -> Integer
+
 const noteLookup = (noteName) => {
-  
-  return R.findIndex(R.contains(R.prop("notes"), noteName), scale)
+  return R.findIndex(R.contains(noteName))(scale)
 }
 
 // Map a list of integers to note names
@@ -74,6 +74,11 @@ const getChord = (note, chord) => {
 
 
 // ---------------------------------
-module.exports = Object.freeze({ scale, chords, getChord, noteLookup })
+module.exports = Object.freeze({ 
+  scale, 
+  chords, 
+  getChord, 
+  noteLookup 
+})
 
 // The End

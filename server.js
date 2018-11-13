@@ -3,6 +3,7 @@
 
 const express = require('express')
 const url = require('url')
+const markdown = require('markdown').markdown
 const ch = require('./chords.js')
 
 const app = express()
@@ -15,6 +16,9 @@ app.get('/', function(request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
+app.get('/README', function (req, res) {
+  res.send(__dirname + '/README.md') 
+})
 
 // Get all chords
 app.get('/chords', (req, res) => {
@@ -26,7 +30,7 @@ app.get('/chords', (req, res) => {
 app.get('/chord/:note/:chord', (req, res) => {
   const note = req.params.note
   const chord = req.params.chord
-  const tr = url.parse(req.url, true).query.transpose || 0
+  const tr = Number(url.parse(req.url, true).query.transpose || 0)
   
   console.log(`Chord: ${note}${chord}, transpose by ${tr}`)
   res.json(ch.getChord(note, chord, tr))

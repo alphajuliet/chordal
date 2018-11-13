@@ -57,26 +57,25 @@ const noteLookup = (noteName) => {
   return R.findIndex(R.contains(noteName))(scale)
 }
 
+const numToNote = (n) =>
+  R.nth(n, scale)
+
 // Map a list of integers to note names
 // chordToNotes :: [Integer] -> [Note]
 const chordToNotes = (lst) => {
   R.map(n => R.nth(n, scale), lst) 
 }
 
-const numToNote = (n) =>
-  R.nth(n, scale)
 
+// ---------------------------------
 // Transpose a note by n
-const transpose = (n, root) =>
-  R.modulo(root + n, 12)
+const transpose = R.curry(
+  (n, root) => R.modulo(root + n, 12))
 
-// Transpose
+// Transpose a note
 // transpose :: Integer -> Note -> [Note]
-const transposeNote = R.curry((n, note) => {
-  const a = noteLookup(note)
-  const b = R.modulo(a + n, R.length(scale))
-  return R.nth(b, scale)
-})
+const transposeNote = R.curry(
+  (n, note) => R.compose(numToNote, transpose(n), noteLookup)(note))
 
 
 // Look up the chord numbers from the name
@@ -97,7 +96,7 @@ const getChord = (rootNote, chord, tr = 0) => {
   
   const notes = R.compose( 
     R.map(numToNote),
-    //R.map(x => R.modulo(x + tr, 12)),
+    R.map(transpose(tr)),
     R.map(transpose(noteLookup(rootNote))),
     chordLookup(all_chords))
   (chord)

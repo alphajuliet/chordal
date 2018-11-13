@@ -71,12 +71,25 @@ const transpose = R.curry((n, note) => {
   return R.nth(b, scale)
 })
 
+
+
+
+
 // ---------------------------------
 // Get a chord
 // getChord :: Note -> Chord -> { String, [Note] }
 const getChord = (note, chord) => {
+  
+  // Get the chord note nums
   const match = R.find(R.propEq('name', chord), chords)
-  const n = R.map(elt => R.nth(elt, scale), R.prop('notes', match))
+  let nums = R.prop('notes', match)
+  
+  // Shift by the root note
+  const baseNum = noteLookup(note)
+  nums = R.map(x => R.modulo(x + baseNum, 12), nums)
+  
+  // Convert to note names
+  const n = R.map(elt => R.nth(elt, scale), nums)
   
   return { 
     "chord": `${note}${chord}`, 

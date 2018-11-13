@@ -29,7 +29,7 @@ app.get('/chord/:note/:chord', (req, res) => {
   const tr = url.parse(req.url, true).query.transpose || 0
   
   console.log(`Chord: ${note}${chord}, transpose by ${tr}`)
-  res.json(ch.getChord(note, chord))
+  res.json(ch.getChord(note, chord, tr))
 })
 
 app.get('/test/:x', (req, res) => {

@@ -63,9 +63,16 @@ const chordToNotes = (lst) => {
   R.map(n => R.nth(n, scale), lst) 
 }
 
+const numToNote = (n) =>
+  R.nth(n, scale)
+
+// Transpose a note by n
+const transpose = (n, root) =>
+  R.modulo(root + n, 12)
+
 // Transpose
 // transpose :: Integer -> Note -> [Note]
-const transpose = R.curry((n, note) => {
+const transposeNote = R.curry((n, note) => {
   const a = noteLookup(note)
   const b = R.modulo(a + n, R.length(scale))
   return R.nth(b, scale)
@@ -74,31 +81,30 @@ const transpose = R.curry((n, note) => {
 
 // Look up the chord numbers from the name
 // chordLookup :: [Chord] -> String -> [Integer]
-const chordLookup = R.curry((chordList, chordName) =>
-  R.compose(R.prop('notes'), R.find(R.propEq('name', chordName)))(chordList))
+const chordLookup = R.curry(
+  (chordList, chordName) => R.compose(R.prop('notes'), 
+                                      R.find(R.propEq('name', chordName)))(chordList))
+
 
 // ---------------------------------
-// Get a chord
+// Get a chord, with optional transpose
 // getChord :: Note -> Chord -> { String, [Note] }
-const getChord = (rootNote, chord) => {
+const getChord = (rootNote, chord, tr = 0) => {
   
-  // Get the chord note nums
-  const curr_nums = chordLookup(all_chords, chord)
+  // 1. Look up chord note nums
+  // 2. Transpose by the base note
+  // 3. Convert to note names
   
-  // Shift by the root note
-  const new_nums = R.map(x => R.modulo(x + noteLookup(rootNote), 12), curr_nums)
-  
-  // Convert to note names
-  //const n = R.map(elt => R.nth(elt, scale), new_nums)
-  
-  const n = R.compose( 
-    R.map(elt => R.nth(elt, scale)),
-    R.map(x => R.modulo(x + noteLookup(rootNote), 12)),
-    chordLookup(all_chords))(chord)
+  const notes = R.compose( 
+    R.map(numToNote),
+    //R.map(x => R.modulo(x + tr, 12)),
+    R.map(transpose(noteLookup(rootNote))),
+    chordLookup(all_chords))
+  (chord)
   
   return { 
     "chord": `${rootNote}${chord}`, 
-    "notes": n 
+    "notes": notes
   }
 }
 

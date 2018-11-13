@@ -2,6 +2,7 @@
 // andrewj 2018-11-13
 
 const express = require('express')
+const url = require('url')
 const ch = require('./chords.js')
 
 const app = express()
@@ -25,6 +26,7 @@ app.get('/chords', (req, res) => {
 app.get('/chord/:note/:chord', (req, res) => {
   const note = req.params.note
   const chord = req.params.chord
+  const tr = url.
   
   console.log(`Chord: ${note}${chord}`)
   res.json(ch.getChord(note, chord))

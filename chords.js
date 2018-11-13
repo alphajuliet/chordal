@@ -56,11 +56,22 @@ const chordToNotes = (lst) => {
   R.map(noteLookup, lst) 
 }
 
+const getChord = (note, chord) => {
+  const match = R.find(R.propEq('name', chord), chords)
+  const notes = chordToNotes(R.prop('notes', match))
+  
+  return { 
+    "chord": `${note}${chord}`, 
+    "notes": notes 
+  }
+}
+
 // ---------------------------------
 
 module.exports = Object.freeze({
-  notes: notes,
-  chords: chords
+  notes,
+  chords,
+  getChord
 })
 
 // The End

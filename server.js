@@ -15,9 +15,19 @@ app.get('/', function(request, response) {
 });
 
 
+// Get all chords
 app.get('/chords', (req, res) => {
   console.log('GET /chords')
   res.json(ch.chords)
+})
+
+// Get a given chord
+app.get('/chord/:note/:chord', (req, res) => {
+  const note = req.params.note
+  const chord = req.params.chord
+  
+  console.log(`Chord: ${note}${chord}`)
+  res.json(ch.getChord(note, chord))
 })
 
 

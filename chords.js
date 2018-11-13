@@ -87,7 +87,7 @@ const chordLookup = R.curry(
 
 // ---------------------------------
 // Get a chord, with optional transpose
-// getChord :: Note -> Chord -> { String, [Note] }
+// getChord :: Note -> Chord -> { String, Integer, [Note] }
 const getChord = (rootNote, chord, tr = 0) => {
   
   // 1. Convert chord to list of notes
@@ -104,10 +104,10 @@ const getChord = (rootNote, chord, tr = 0) => {
   
   return { 
     "chord": `${rootNote}${chord}`, 
+    "transpose": tr,
     "notes": notes
   }
 }
-
 
 // ---------------------------------
 module.exports = Object.freeze({ 

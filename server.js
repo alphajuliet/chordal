@@ -46,9 +46,11 @@ app.get('/chord/:note/:chord', (req, res) => {
   const chord = R.toLower(req.params.chord)
   const tr = Number(url.parse(req.url, true).query.transpose || 0)
   
+  // Call service
   console.log(`Chord: ${note}${chord}, transpose by ${tr}`)
   const json = ch.getChord(note, chord, tr)
   res.json(json.error ? 400 : 200, json)
+  
 })
 
 // -------------------------------

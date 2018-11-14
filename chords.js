@@ -14,18 +14,18 @@ const R = require('ramda'),
 // Vocabulary of note names
 // scale: [[Note]]
 const scale = [
-  ["C", "B#"], 
+  ["C",  "B#"], 
   ["C#", "Db"], 
-  ["D", "D"], 
+  ["D",  "D"], 
   ["D#", "Eb"], 
-  ["E", "Fb"], 
-  ["F", "E#"], 
+  ["E",  "Fb"], 
+  ["F",  "E#"], 
   ["F#", "Gb"], 
-  ["G", "G"], 
+  ["G",  "G"], 
   ["G#", "Ab"], 
-  ["A"], 
+  ["A",  "A"], 
   ["A#", "Bb"], 
-  ["B", "Cb"]
+  ["B",  "Cb"]
 ]
 
 // ---------------------------------

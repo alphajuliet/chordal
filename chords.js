@@ -6,7 +6,6 @@
 const R = require('ramda'),
       Maybe = require('folktale/maybe')
 
-
 // Type aliases:
 // type Note = String
 // type Chord = { String, [Note], String }
@@ -46,6 +45,7 @@ const all_chords = [
 	{ name: "dim7",    notes: [0, 3, 6, 9],      description: "diminished 7th (C-E♭-G♭-B♭♭)" },
 	{ name: "aug7",    notes: [0, 4, 8, 10],     description: "augmented 7th (C-E-G♯-B♭)" },
 	{ name: "hdim7",   notes: [0, 3, 6, 10],     description: "half-diminished 7th (C-E♭-G♭-B♭)" },
+  { name: "maj4",    notes: [0, 4, 5, 7],      description: "major 4th (C-E-F-G)" },
 	{ name: "maj6",    notes: [0, 4, 7, 9],      description: "major 6th (C-E-G-A)" },
 	{ name: "sus2",    notes: [0, 2, 7],         description: "suspended 2nd (C-D-G)" },
 	{ name: "sus4",    notes: [0, 5, 7],         description: "suspended 4th (C-F-G)" },

@@ -7,8 +7,8 @@ const fs = require('fs'),
       app = express(),
       url = require('url'),
       md = require('markdown-it')(),
-      ch = require('./chords.js'),
-      R = require('ramda')
+      R = require('ramda'),
+      ch = require('./chords.js')
 
 // -------------------------------
 // http://expressjs.com/en/starter/static-files.html

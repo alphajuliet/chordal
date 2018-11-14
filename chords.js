@@ -16,12 +16,12 @@ const R = require('ramda'),
 const scale = [
   ["C", "B#"], 
   ["C#", "Db"], 
-  ["D"], 
+  ["D", "D"], 
   ["D#", "Eb"], 
   ["E", "Fb"], 
   ["F", "E#"], 
   ["F#", "Gb"], 
-  ["G"], 
+  ["G", "G"], 
   ["G#", "Ab"], 
   ["A"], 
   ["A#", "Bb"], 
@@ -43,6 +43,7 @@ const all_chords = [
 	{ name: "dim",     notes: [0, 3, 6],         description: "diminished (C-E♭-G♭)" },
 	{ name: "aug",     notes: [0, 4, 8],         description: "augmented (C-E-G♯)" },
 	{ name: "dim7",    notes: [0, 3, 6, 9],      description: "diminished 7th (C-E♭-G♭-B♭♭)" },
+	{ name: "dimmaj7", notes: [0, 3, 6, 11],     description: "diminished major 7th (C-E♭-G♭-B)" },
 	{ name: "aug7",    notes: [0, 4, 8, 10],     description: "augmented 7th (C-E-G♯-B♭)" },
   { name: "augmaj7", notes: [0, 4, 8, 11],     description: "augmented major 7th (C-E-G♯-B)" },
   { name: "7b5",     notes: [0, 4, 6, 10],     description: "seventh flat 5 (C-E-G♭-B♭)" },
@@ -55,6 +56,7 @@ const all_chords = [
 	{ name: "sus4",    notes: [0, 5, 7],         description: "suspended 4th (C-F-G)" },
 	{ name: "maj9",    notes: [0, 4, 7, 11, 14], description: "major 9th (C-E-G-B-D)" },
 	{ name: "min9",    notes: [0, 3, 7, 10, 14], description: "minor 9th (C-E♭-G-B♭-D)" },
+	{ name: "minmaj9", notes: [0, 3, 7, 11, 14], description: "minor/major 9th (C-E♭-G-B-D)" }
 ]
 
 // ---------------------------------
@@ -90,10 +92,10 @@ const chordLookup = R.curry(
 // getChord :: Note -> Chord -> { String, Integer, [Note] }
 const getChord = (rootNote, chord, tr = 0) => {
     
-  // 1. Convert chord to list of notes
+  // 1. Look up chord as a list of notes
   // 2. Transpose to the new root note
-  // 3. Transpose by the given parameter
-  // 4. Convert to note names
+  // 3. Transpose by tr
+  // 4. Map back to note names
   
   try {
     const notes = R.compose( 
@@ -118,7 +120,8 @@ const test = (x) => {
   const chordLookup = R.curry(
     (chordList, chordName) => 
       R.compose(R.prop('notes'), 
-                R.find(R.propEq('name', chordName)))(chordList))
+                R.find(R.propEq('name', chordName)))
+      (chordList))
   
   return { "result": chordLookup(all_chords, 'min') }
 }

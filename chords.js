@@ -59,12 +59,15 @@ const all_chords = [
 ]
 
 // ---------------------------------
-// Look up the note number from the name
-// noteLookup :: Note -> Integer
+// Conversions between note names (A-G) and numbers (0-11)
+
+// noteToNum :: Note -> Integer
 const noteToNum = (noteName) => {
   const res = R.findIndex(R.contains(noteName))(scale)
-  if (res < 0)
+  if (res < 0) {
     console.error(`### Error: ${noteName} not found`)
+    return null
+  }
   else
     return res
 }
@@ -129,8 +132,10 @@ module.exports = Object.freeze({
   scale, 
   all_chords, 
   getChord,
+
   test,
   noteToNum,
+  numToNote,
 })
 
 // The End

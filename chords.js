@@ -31,7 +31,6 @@ const scale = [
 // ---------------------------------
 // Database of chords
 // See https://en.wikipedia.org/wiki/Chord_names_and_symbols_(popular_music)
-// @@TODO Add alternative chord names
 // chords :: [Chord]
 const all_chords = [
   { name: ["maj", "major"], notes: [0, 4, 7], description: "major (C-E-G)" },
@@ -130,7 +129,8 @@ module.exports = Object.freeze({
   scale, 
   all_chords, 
   getChord,
-  test
+  test,
+  noteToNum,
 })
 
 // The End

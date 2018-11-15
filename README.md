@@ -1,7 +1,8 @@
 # Chordal API
 
-A simple musical API focusing on chords. For a list of the available chords, see the first API call below.
-
+A simple musical API focusing on chords. For a list of the available chords, see the first API call below. 
+It includes most major and minor chords, including sevenths, diminished/augmented, and suspended chords. 
+A variety of alternative names are also catered for, e.g. maj7 = major7 = maj7th = major7th
 
 ## API 
 
@@ -10,8 +11,6 @@ A simple musical API focusing on chords. For a list of the available chords, see
 `GET /chords` 
 
 Return the available chords names, their constituent semitones, and descriptions.
-
-The current response is: [here](/chords)
 
 ### Return chord notes
 
@@ -47,7 +46,7 @@ Transpose the notes in the requested chord up/down by `n`.
 
 | Request | Response |
 | ------- | -------- |
-|`GET /chord/F/maj?transpose=-3` | `{"chord":"Fmaj","transpose":3,"notes":[["G#","Ab"],["C","B#"],["D#","Eb"]]}`|
+|`GET /chord/F/maj?transpose=3` | `{"chord":"Fmaj","transpose":3,"notes":[["G#","Ab"],["C","B#"],["D#","Eb"]]}`|
 
 ----
 

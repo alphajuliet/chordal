@@ -34,7 +34,10 @@ app.get('/README', function (req, res) {
 // Get all chords
 app.get('/chords', (req, res) => {
   console.log('GET /chords')
-  res.json(ch.all_chords)
+
+  const json = ch.all_chords
+  const status = json.error ? 400 : 200
+  res.status(status).json(json)
 })
 
 // -------------------------------
@@ -47,9 +50,12 @@ app.get('/chord/:note/:chord', (req, res) => {
   const tr = Number(url.parse(req.url, true).query.transpose || 0)
   
   // Call service
+  console.log(`GET ${req.url}`)
   console.log(`Chord: ${note}${chord}, transpose by ${tr}`)
+
   const json = ch.getChord(note, chord, tr)
-  res.json(json.error ? 400 : 200, json)
+  const status = json.error ? 400 : 200
+  res.status(status).json(json)
   
 })
 
@@ -66,7 +72,8 @@ app.get('/test', (req, res) => {
 
 // -------------------------------
 // listen for requests :)
-const listener = app.listen(process.env.PORT, function() {
+const port = 3000
+const listener = app.listen(port, function() {
   console.log('Your app is listening on port ' + listener.address().port);
 });
 

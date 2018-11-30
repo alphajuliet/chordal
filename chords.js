@@ -10,16 +10,18 @@ const R = require('ramda'),
 // Utilities
 
 // rotateLeft :: Integer -> [a] -> [a]
-const rotateLeft = (n, lst) => {
+const rotateLeft = R.curry((n, lst) => {
   const len = R.length(lst)
   const nmod = R.modulo(n, len)
-  return R.concat(R.takeLast(len - nmod, lst), R.take(nmod, lst))
-}
+  return R.concat(
+    R.takeLast(len - nmod, lst), 
+    R.take(nmod, lst))
+})
 
 // ---------------------------------
 // Type aliases:
 // type Note = String
-// type Chord = { String, [Note], String }
+// type Chord = { [String], [Note], String }
 
 // ---------------------------------
 // Vocabulary of note names
@@ -92,38 +94,44 @@ const transpose = R.curry(
   (n, root) => R.modulo(root + n, 12))
 
 // ---------------------------------
-// Invert a chord
-// invert :: Integer -> [[Note]] -> [[Note]]
-
-
-// ---------------------------------
 // findChordByName :: [Chord] -> String -> Chord
 const findChordByName = R.curry(
   (chordList, chordName) => R.find(x => R.contains(chordName, R.prop('name', x)))(chordList))
 
+
+// Map over a chord
+// mapChord :: ([Integer] -> [Integer]) -> Chord -> [[Note]]
+const mapChord = R.curry((fn, ch) =>
+  R.compose(
+    R.map(numToNote),
+    fn,
+    R.prop('notes'))(ch)
+)
+
 // ---------------------------------
 // Get a chord, with optional transpose
-// getChord :: Note -> Chord -> { String, Integer, [Note] }
-const getChord = (rootNote, chord, tr = 0) => {
+// getChord :: Note -> Chord -> Integer -> Integer -> { String, Integer, Integer, [Note] }
+const getChord = (rootNote, chord, tr = 0, inv = 0) => {
     
   // 1. Look up chord by name
   // 2. Get the note numbers
   // 3. Transpose to the new root note
   // 4. Transpose by tr
-  // 5. Map back to note names
+  // 5. Rotate left (inversion) by inv
+  // 6. Map back to note names
   
   try {
-    const notes = R.compose( 
-      R.map(numToNote),
-      R.map(transpose(tr)),
-      R.map(transpose(noteToNum(rootNote))),
-      R.prop('notes'),
-      findChordByName(all_chords))
-    (chord)
+    const f = R.compose(
+      rotateLeft(inv), 
+      R.map(transpose(tr)), 
+      R.compose(R.map, transpose, noteToNum)(rootNote))
+
+    const notes = mapChord(f)(findChordByName(all_chords, chord))
 
     return { 
-      "chord": `${rootNote}${chord}`, 
+      "chord": `${rootNote}_${chord}`, 
       "transpose": tr,
+      "inversion": inv,
       "notes": notes
     }
   }

@@ -30,8 +30,9 @@ describe("Lookup functions", () => {
 describe("Get chord info", () => {
   it("returns a chord", () => {
     const c = ch.getChord("C", "min", 0)
-    expect(R.prop('chord', c)).toEqual("Cmin")
+    expect(R.prop('chord', c)).toEqual("C_min")
     expect(R.prop('transpose', c)).toEqual(0)
+    expect(R.prop('inversion', c)).toEqual(0)
     expect(R.length(R.prop('notes', c))).toEqual(3)
   })
 })
@@ -46,5 +47,7 @@ describe("Rotates a list", () => {
     expect(ch.rotateLeft(5, [1, 2, 3, 4])).toEqual([2, 3, 4, 1])
   })
 })
+
+// ---------------------------------
 
 // The End

@@ -28,8 +28,8 @@ Return the notes in the requested chord, including alternative note names (e.g. 
 
 | Request | Response |
 | ------- | -------- |
-|`GET /chord/E/min` | `{"chord":"Emin","transpose":0,"notes":[["E","Fb"],["G"],["B","Cb"]]}`|
-|`GET /chord/Gb/maj7` | `{"chord":"Gbmaj7","transpose":0,"notes":[["F#","Gb"],["A#","Bb"],["C#","Db"],["F","E#"]]}`|
+|`GET /chord/E/min` | `{"chord":"E_min","transpose":0,"inversion":0,"notes":[["E","Fb"],["G"],["B","Cb"]]}`|
+|`GET /chord/Gb/maj7` | `{"chord":"Gb_maj7","transpose":0,"inversion":0,"notes":[["F#","Gb"],["A#","Bb"],["C#","Db"],["F","E#"]]}`|
 
 #### Notes
 
@@ -42,11 +42,19 @@ Return the notes in the requested chord, including alternative note names (e.g. 
 
 Transpose the notes in the requested chord up/down by `n`.
 
+### Invert a chord
+
+`GET /chord/<note>/<chord>?inversion=<n>`
+
+Provide the `n`th inversion of the chord. This can be combined with
+transposition in the same request.
+
 #### Examples
 
 | Request | Response |
 | ------- | -------- |
-|`GET /chord/F/maj?transpose=3` | `{"chord":"Fmaj","transpose":3,"notes":[["G#","Ab"],["C","B#"],["D#","Eb"]]}`|
+|`GET /chord/F/maj?transpose=3` | `{"chord":"F_maj","transpose":3,"inversion":0,"notes":[["G#","Ab"],["C","B#"],["D#","Eb"]]}`|
+|`GET /chord/F/maj?inversion=1` | `{"chord":"F_maj","transpose":0,"inversion":1,"notes":[["A"],["C","B#"],["F","E#"]]}`|
 
 ----
 

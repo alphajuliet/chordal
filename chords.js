@@ -6,6 +6,17 @@
 const R = require('ramda'),
       Maybe = require('folktale/maybe')
 
+// ---------------------------------
+// Utilities
+
+// rotateLeft :: Integer -> [a] -> [a]
+const rotateLeft = (n, lst) => {
+  const len = R.length(lst)
+  const nmod = R.modulo(n, len)
+  return R.concat(R.takeLast(len - nmod, lst), R.take(nmod, lst))
+}
+
+// ---------------------------------
 // Type aliases:
 // type Note = String
 // type Chord = { String, [Note], String }
@@ -81,6 +92,11 @@ const transpose = R.curry(
   (n, root) => R.modulo(root + n, 12))
 
 // ---------------------------------
+// Invert a chord
+// invert :: Integer -> [[Note]] -> [[Note]]
+
+
+// ---------------------------------
 // findChordByName :: [Chord] -> String -> Chord
 const findChordByName = R.curry(
   (chordList, chordName) => R.find(x => R.contains(chordName, R.prop('name', x)))(chordList))
@@ -134,6 +150,7 @@ module.exports = Object.freeze({
   getChord,
 
   test,
+  rotateLeft,
   noteToNum,
   numToNote,
 })

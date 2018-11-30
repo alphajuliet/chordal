@@ -36,4 +36,15 @@ describe("Get chord info", () => {
   })
 })
 
+// ---------------------------------
+describe("Rotates a list", () => {
+  it("to the left", () => {
+    expect(ch.rotateLeft(1, [1, 2, 3])).toEqual([2, 3, 1])
+    expect(ch.rotateLeft(2, [1, 2, 3, 4])).toEqual([3, 4, 1, 2])
+    expect(ch.rotateLeft(0, [1, 2, 3])).toEqual([1, 2, 3])
+    expect(ch.rotateLeft(4, [1, 2, 3, 4])).toEqual([1, 2, 3, 4])
+    expect(ch.rotateLeft(5, [1, 2, 3, 4])).toEqual([2, 3, 4, 1])
+  })
+})
+
 // The End

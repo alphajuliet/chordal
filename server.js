@@ -67,7 +67,7 @@ app.get('/transpose', (req, res) => {
   // Get arguments
   const tr  = Number(url.parse(req.url, true).query.transpose || 0)
   const notesStr = url.parse(req.url, true).query.notes || ""
-  notes = R.map(R.trim, R.split(',', notesStr))
+  notes = R.compose(R.map(R.toUpper),R.map(R.trim), R.split(','))(notesStr)
 
   console.log(`GET ${req.url}`)
   console.log(`Transpose [${notes}] by ${tr} semitone(s)`)

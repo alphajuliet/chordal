@@ -56,6 +56,22 @@ transposition in the same request.
 |`GET /chord/F/maj?transpose=3` | `{"chord":"F_maj","transpose":3,"inversion":0,"notes":[["G#","Ab"],["C","B#"],["D#","Eb"]]}`|
 |`GET /chord/F/maj?inversion=1` | `{"chord":"F_maj","transpose":0,"inversion":1,"notes":[["A"],["C","B#"],["F","E#"]]}`|
 
+### Transpose a list of notes
+
+`GET /transpose?notes=<lst>&transpose=<n>`
+
+Transpose a list of notes by `n` semitones. The list of notes is separated by
+commas, and '#" must be encoded as `%23`. The notes need have no relation to
+each other, and can be repeated as desired. It could be a chord, or a sequence
+of played notes.
+
+#### Examples
+
+
+| Request | Response |
+| ------- | -------- |
+|`GET /transpose?notes=C,D,E&transpose=2` | `{"transpose":2,"notes":[["D"],["E","Fb"],["F#","Gb"]]}`|
+
 ----
 
 Project [i:513761]

@@ -49,5 +49,15 @@ describe("Rotates a list", () => {
 })
 
 // ---------------------------------
+describe("Transpose a list of notes", () => {
+  it("transposes", () => {
+    expect(R.prop("notes", ch.transposeNotes(2, ["C", "D", "E"]))).
+      toEqual([["D"], ["E","Fb"], ["F#","Gb"]])
+    expect(R.prop("notes", ch.transposeNotes(2, ["c#", "d", "e"]))).
+      toEqual([["D#", "Eb"], ["E", "Fb"], ["F#", "Gb"]])
+  })
+})
+
+// ---------------------------------
 
 // The End

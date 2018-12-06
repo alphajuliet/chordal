@@ -18,6 +18,11 @@ const rotateLeft = R.curry((n, lst) => {
     R.take(nmod, lst))
 })
 
+// capitalise :: String -> String
+const capitalise = R.compose(
+  R.join(''),
+  R.juxt([R.compose(R.toUpper, R.head), R.tail]))
+
 // ---------------------------------
 // Type aliases:
 // type Note = String
@@ -76,7 +81,7 @@ const all_chords = [
 
 // noteToNum :: Note -> Integer
 const noteToNum = (noteName) => {
-  const res = R.findIndex(R.contains(noteName))(scale)
+  const res = R.findIndex(R.contains(capitalise(noteName)))(scale)
   if (res < 0) {
     console.error(`### Error: ${noteName} not found`)
     return null
@@ -156,14 +161,15 @@ const getChord = (rootNote, chord, tr = 0, inv = 0) => {
 
 // ---------------------------------
 // Transpose a list of notes
+// transposeNotes :: Integer -> [String] -> [[Notes]]
 const transposeNotes = R.curry((n, notes) => {
+  
   const x = mapNotes(R.map(transpose(n)))(notes)
   return {
-    "notes": x,
-    "transpose": n
+    "transpose": n,
+    "notes": x
   }
 })
-
 
 
 // ---------------------------------
@@ -171,10 +177,10 @@ const test = (x) => {
   const chordLookup = R.curry(
     (chordList, chordName) => 
       R.compose(R.prop('notes'), 
-                R.find(R.propEq('name', chordName)))
-      (chordList))
+        R.find(R.propEq('name', chordName))
+      )(chordList))
   
-  return { "result": chordLookup(all_chords, 'min') }
+  return { "chords": chordLookup(all_chords, 'min') }
 }
 
 

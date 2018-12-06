@@ -60,14 +60,34 @@ app.get('/chord/:note/:chord', (req, res) => {
   
 })
 
+// ---------------------------------
+// Transpose a list of notes
+app.get('/transpose', (req, res) => {
+
+  // Get arguments
+  const tr  = Number(url.parse(req.url, true).query.transpose || 0)
+  const notesStr = url.parse(req.url, true).query.notes || ""
+  notes = R.map(R.trim, R.split(',', notesStr))
+
+  console.log(`GET ${req.url}`)
+  console.log(`Transpose [${notes}] by ${tr} semitone(s)`)
+
+  const json = ch.transposeNotes(tr, notes)
+  const status = json.error ? 400 : 200
+  res.status(status).json(json)
+})
+
+
 // -------------------------------
 // Test query
 app.get('/test', (req, res) => {
-  //const x = Number(req.params.x)
-  
-  //console.log(`Test: ${x}`)
-  res.json(ch.test())
-  // res.end("Test")
+  const json = R.compose(
+    R.map(ch.numToNote),
+    R.map(ch.transpose(2)),
+    R.map(ch.noteToNum)
+  )(["C", "D", "E"])
+  const status = json.error ? 400 : 200
+  res.status(status).json(json)
 })
 
 

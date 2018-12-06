@@ -90,23 +90,36 @@ const numToNote = (n) => R.nth(n, scale)
 
 // ---------------------------------
 // Transpose a note by n
-const transpose = R.curry(
-  (n, root) => R.modulo(root + n, 12))
+// transpose :: Integer -> Integer -> Integer
+const transpose = R.curry((n, root) => 
+  R.modulo(root + n, 12))
+
 
 // ---------------------------------
-// findChordByName :: [Chord] -> String -> Chord
-const findChordByName = R.curry(
-  (chordList, chordName) => R.find(x => R.contains(chordName, R.prop('name', x)))(chordList))
+// Mapping functions over higher-level types
+
+// Map over a list of note names
+// mapNotes :: ([Integer] -> [Integer]) -> [Note] -> [[Note]]
+const mapNotes = (fn) => 
+  R.compose(
+    R.map(numToNote),
+    fn,
+    R.map(noteToNum))
 
 
 // Map over a chord
 // mapChord :: ([Integer] -> [Integer]) -> Chord -> [[Note]]
-const mapChord = R.curry((fn, ch) =>
+const mapChord = (fn) =>
   R.compose(
     R.map(numToNote),
     fn,
-    R.prop('notes'))(ch)
-)
+    R.prop('notes'))
+
+
+// ---------------------------------
+// findChordByName :: [Chord] -> String -> Chord
+const findChordByName = R.curry((chordList, chordName) => 
+  R.find(x => R.contains(chordName, R.prop('name', x)))(chordList))
 
 // ---------------------------------
 // Get a chord, with optional transpose
@@ -140,6 +153,20 @@ const getChord = (rootNote, chord, tr = 0, inv = 0) => {
   }
 }
 
+
+// ---------------------------------
+// Transpose a list of notes
+const transposeNotes = R.curry((n, notes) => {
+  const x = mapNotes(R.map(transpose(n)))(notes)
+  return {
+    "notes": x,
+    "transpose": n
+  }
+})
+
+
+
+// ---------------------------------
 const test = (x) => {
   const chordLookup = R.curry(
     (chordList, chordName) => 
@@ -156,11 +183,13 @@ module.exports = Object.freeze({
   scale, 
   all_chords, 
   getChord,
+  transposeNotes,
 
   test,
   rotateLeft,
   noteToNum,
   numToNote,
+  transpose
 })
 
 // The End

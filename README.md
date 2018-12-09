@@ -22,7 +22,8 @@ Return the available chords names, their constituent semitones, and descriptions
 
 `GET /chord/<note>/<chord>`
 
-Return the notes in the requested chord, including alternative note names (e.g. C♯ vs D♭).
+Return the notes in the requested chord. The handling of accidentals (# or b) is
+based on the root note.
 
 
 #### Arguments
@@ -34,11 +35,12 @@ Return the notes in the requested chord, including alternative note names (e.g. 
 
 | Request | Response |
 | ------- | -------- |
-|`GET /chord/E/min` | `{"chord":"E_min","transpose":0,"inversion":0,"notes":[["E","Fb"],["G"],["B","Cb"]]}`|
-|`GET /chord/Gb/maj7` | `{"chord":"Gb_maj7","transpose":0,"inversion":0,"notes":[["F#","Gb"],["A#","Bb"],["C#","Db"],["F","E#"]]}`|
+|`GET /chord/E/min` | `{"chord":"E_min","transpose":0,"inversion":0,"notes":[["E","G","B"]}`|
+|`GET /chord/Gb/maj7` | `{"chord":"Gb_maj7","transpose":0,"inversion":0,"notes":["Gb","Bb","Db","F"]}`|
 
 #### Notes
 
+* Doesn't handle Cb, B#, E#, and Fb.
 * Double sharps and flats (e.g. Cx, Abb), and naturals are not handled.
 * Unicode characters not handled (♯, 𝄪, ♭, 𝄫, ♮).
 
@@ -59,12 +61,12 @@ transposition in the same request.
 
 | Request | Response |
 | ------- | -------- |
-|`GET /chord/F/maj?transpose=3` | `{"chord":"F_maj","transpose":3,"inversion":0,"notes":[["G#","Ab"],["C","B#"],["D#","Eb"]]}`|
-|`GET /chord/F/maj?inversion=1` | `{"chord":"F_maj","transpose":0,"inversion":1,"notes":[["A"],["C","B#"],["F","E#"]]}`|
+|`GET /chord/F/maj?transpose=3` | `{"chord":"F_maj","transpose":3,"inversion":0,"notes":["G#","C","D#"]}`|
+|`GET /chord/F/maj?inversion=1` | `{"chord":"F_maj","transpose":0,"inversion":1,"notes":[["A","C","F"]}`|
 
 ### Transpose a list of notes
 
-`GET /transpose?notes=<lst>&transpose=<n>`
+`GET /notes?list=<lst>&transpose=<n>`
 
 Transpose a list of notes by `n` semitones. The list of notes is separated by
 commas, and '#" must be encoded as `%23`. The notes need have no relation to
@@ -76,7 +78,7 @@ of played notes.
 
 | Request | Response |
 | ------- | -------- |
-|`GET /transpose?notes=C,D,E&transpose=2` | `{"transpose":2,"notes":[["D"],["E","Fb"],["F#","Gb"]]}`|
+|`GET /notes?list=C,D,E&transpose=1` | `{"transpose":1,"notes":[["C#","Db"],["D#","Eb"],["F"]]}`|
 
 ----
 

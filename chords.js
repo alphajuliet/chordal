@@ -32,18 +32,18 @@ const capitalise = R.compose(
 // Vocabulary of note names
 // allNotes: [[Note]]
 const allNotes = [
-  ["C",  "B#"], 
+  ["C"], 
   ["C#", "Db"], 
   ["D"], 
   ["D#", "Eb"], 
-  ["E",  "Fb"], 
-  ["F",  "E#"], 
+  ["E"], 
+  ["F"], 
   ["F#", "Gb"], 
   ["G"], 
   ["G#", "Ab"], 
   ["A"], 
   ["A#", "Bb"], 
-  ["B",  "Cb"]
+  ["B"]
 ]
 
 // ---------------------------------
@@ -81,7 +81,13 @@ const allChords = [
 
 // noteToNum :: Note -> Integer
 const noteToNum = (noteName) => {
-  const res = R.findIndex(R.contains(capitalise(noteName)))(allNotes)
+
+  const res = R.compose(
+    R.flip(R.findIndex)(allNotes),
+    R.contains,
+    capitalise
+  )(noteName)
+
   if (res < 0) {
     console.error(`### Error: ${noteName} not found`)
     return null
@@ -102,6 +108,15 @@ const transpose = R.curry((n, root) =>
 
 // Select which note alternates to use based on the root note
 // collapseNotes :: Note -> [[Notes]] -> [Notes]
+const collapseNotes = R.curry((root, noteList) => {
+  let z
+  if (root.length == 2 && root.substring(1) == "b")
+    z = R.map(R.last, noteList)
+  else
+    z = R.map(R.head, noteList)
+
+  return z
+})
 
 // ---------------------------------
 // Mapping functions over higher-level types
@@ -145,9 +160,13 @@ const getChord = (rootNote, chord, tr = 0, inv = 0) => {
     const f = R.compose(
       rotateLeft(inv), 
       R.map(transpose(tr)), 
-      R.compose(R.map, transpose, noteToNum)(rootNote))
+      R.map(transpose(noteToNum(rootNote))))
 
-    const notes = mapChord(f)(findChordByName(allChords, chord))
+    const notes = R.compose(
+      collapseNotes(rootNote),
+      mapChord(f),
+      findChordByName(allChords)
+    )(chord)
 
     return { 
       "chord": `${rootNote}_${chord}`, 
@@ -167,7 +186,11 @@ const getChord = (rootNote, chord, tr = 0, inv = 0) => {
 // transposeNotes :: Integer -> [String] -> [[Notes]]
 const transposeNotes = R.curry((n, notes) => {
   
-  const x = mapNotes(R.map(transpose(n)))(notes)
+  const x = R.compose(
+    collapseNotes(R.head(notes)),
+    mapNotes(R.map(transpose(n)))
+  )(notes)
+
   return {
     "transpose": n,
     "notes": x

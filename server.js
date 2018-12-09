@@ -62,7 +62,7 @@ app.get('/chord/:note/:chord', (req, res) => {
   
   // Call service
   console.log(`GET ${req.url}`)
-  console.log(`Chord: ${note}${chord}, transpose by ${tr}, invert by ${inv}`)
+  console.log(`Chord: ${note}_${chord}, transpose by ${tr}, invert by ${inv}`)
 
   const json = ch.getChord(note, chord, tr, inv)
   const status = json.error ? 400 : 200
@@ -71,12 +71,12 @@ app.get('/chord/:note/:chord', (req, res) => {
 })
 
 // ---------------------------------
-// Transpose a list of notes
-app.get('/transpose', (req, res) => {
+// Handle a list of notes
+app.get('/notes', (req, res) => {
 
   // Get arguments
   const tr  = Number(url.parse(req.url, true).query.transpose || 0)
-  const notesStr = url.parse(req.url, true).query.notes || ""
+  const notesStr = url.parse(req.url, true).query.list || ""
   const notes = R.split(',', notesStr)
 
   console.log(`GET ${req.url}`)

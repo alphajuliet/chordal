@@ -30,8 +30,8 @@ const capitalise = R.compose(
 
 // ---------------------------------
 // Vocabulary of note names
-// scale: [[Note]]
-const scale = [
+// allNotes: [[Note]]
+const allNotes = [
   ["C",  "B#"], 
   ["C#", "Db"], 
   ["D"], 
@@ -50,7 +50,7 @@ const scale = [
 // Database of chords
 // See https://en.wikipedia.org/wiki/Chord_names_and_symbols_(popular_music)
 // chords :: [Chord]
-const all_chords = [
+const allChords = [
   { name: ["maj", "major"], notes: [0, 4, 7], description: "major (C-E-G)" },
   { name: ["min", "minor"], notes: [0, 3, 7], description: "minor (C-E♭-G)" },
   { name: ["7", "7th"], notes: [0, 4, 7, 10], description: "7th (C-E-G-B♭)" },
@@ -81,7 +81,7 @@ const all_chords = [
 
 // noteToNum :: Note -> Integer
 const noteToNum = (noteName) => {
-  const res = R.findIndex(R.contains(capitalise(noteName)))(scale)
+  const res = R.findIndex(R.contains(capitalise(noteName)))(allNotes)
   if (res < 0) {
     console.error(`### Error: ${noteName} not found`)
     return null
@@ -91,7 +91,7 @@ const noteToNum = (noteName) => {
 }
 
 // numToNote :: Integer -> [Note]
-const numToNote = (n) => R.nth(n, scale)
+const numToNote = (n) => R.nth(n, allNotes)
 
 // ---------------------------------
 // Transpose a note by n
@@ -99,6 +99,9 @@ const numToNote = (n) => R.nth(n, scale)
 const transpose = R.curry((n, root) => 
   R.modulo(root + n, 12))
 
+
+// Select which note alternates to use based on the root note
+// collapseNotes :: Note -> [[Notes]] -> [Notes]
 
 // ---------------------------------
 // Mapping functions over higher-level types
@@ -144,7 +147,7 @@ const getChord = (rootNote, chord, tr = 0, inv = 0) => {
       R.map(transpose(tr)), 
       R.compose(R.map, transpose, noteToNum)(rootNote))
 
-    const notes = mapChord(f)(findChordByName(all_chords, chord))
+    const notes = mapChord(f)(findChordByName(allChords, chord))
 
     return { 
       "chord": `${rootNote}_${chord}`, 
@@ -180,14 +183,14 @@ const test = (x) => {
         R.find(R.propEq('name', chordName))
       )(chordList))
   
-  return { "chords": chordLookup(all_chords, 'min') }
+  return { "chords": chordLookup(allChords, 'min') }
 }
 
 
 // ---------------------------------
 module.exports = Object.freeze({ 
-  scale, 
-  all_chords, 
+  allNotes, 
+  allChords, 
   getChord,
   transposeNotes,
 

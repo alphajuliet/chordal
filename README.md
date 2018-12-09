@@ -78,7 +78,7 @@ of played notes.
 
 | Request | Response |
 | ------- | -------- |
-|`GET /notes?list=C,D,E&transpose=1` | `{"transpose":1,"notes":[["C#","Db"],["D#","Eb"],["F"]]}`|
+|`GET /notes?list=C,D,E&transpose=1` | `{"transpose":1,"notes":["C#","D#","F"]}`|
 
 ----
 

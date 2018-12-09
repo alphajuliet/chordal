@@ -6,6 +6,12 @@ A variety of alternative names are also catered for, e.g. maj7 = major7 = maj7th
 
 ## API 
 
+### List available notes
+
+`GET /allNotes`
+
+Return the available note names in the octave, including alternates, e.g. C# == Db.
+
 ### List available chords
 
 `GET /chords` 

@@ -31,11 +31,21 @@ app.get('/README', function (req, res) {
 })
 
 // -------------------------------
+// Get the note names
+app.get('/allnotes', (req, res) => {
+  console.log('GET /allNotes')
+  
+  const json = ch.allNotes
+  const status = json.error ? 400 : 200
+  res.status(status).json(json)
+})
+
+// -------------------------------
 // Get all chords
 app.get('/chords', (req, res) => {
   console.log('GET /chords')
 
-  const json = ch.all_chords
+  const json = ch.allChords
   const status = json.error ? 400 : 200
   res.status(status).json(json)
 })

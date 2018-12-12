@@ -82,11 +82,8 @@ const allChords = [
 // noteToNum :: Note -> Integer
 const noteToNum = (noteName) => {
 
-  const res = R.compose(
-    R.flip(R.findIndex)(allNotes),
-    R.contains,
-    capitalise
-  )(noteName)
+  const pred = R.contains(capitalise(noteName))
+  const res = R.findIndex(pred, allNotes)
 
   if (res < 0) {
     console.error(`### Error: ${noteName} not found`)

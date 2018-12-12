@@ -85,10 +85,8 @@ const noteToNum = (noteName) => {
   const pred = R.contains(capitalise(noteName))
   const res = R.findIndex(pred, allNotes)
 
-  if (res < 0) {
-    console.error(`### Error: ${noteName} not found`)
+  if (res < 0)
     return null
-  }
   else
     return res
 }
@@ -102,17 +100,14 @@ const numToNote = (n) => R.nth(n, allNotes)
 const transpose = R.curry((n, root) => 
   R.modulo(root + n, 12))
 
-
+// ---------------------------------
 // Select which note alternates to use based on the root note
 // collapseNotes :: Note -> [[Notes]] -> [Notes]
 const collapseNotes = R.curry((root, noteList) => {
-  let z
   if (root.length == 2 && root.substring(1) == "b")
-    z = R.map(R.last, noteList)
+    return R.map(R.last, noteList)
   else
-    z = R.map(R.head, noteList)
-
-  return z
+    return R.map(R.head, noteList)
 })
 
 // ---------------------------------
@@ -152,6 +147,7 @@ const getChord = (rootNote, chord, tr = 0, inv = 0) => {
   // 4. Transpose by tr
   // 5. Rotate left (inversion) by inv
   // 6. Map back to note names
+  // 7. Collapse alternate notes to a single value
   
   try {
     const f = R.compose(
@@ -194,16 +190,9 @@ const transposeNotes = R.curry((n, notes) => {
   }
 })
 
-
 // ---------------------------------
 const test = (x) => {
-  const chordLookup = R.curry(
-    (chordList, chordName) => 
-      R.compose(R.prop('notes'), 
-        R.find(R.propEq('name', chordName))
-      )(chordList))
-  
-  return { "chords": chordLookup(allChords, 'min') }
+  return {}
 }
 
 
@@ -214,6 +203,7 @@ module.exports = Object.freeze({
   getChord,
   transposeNotes,
 
+  // For unit testing
   test,
   rotateLeft,
   noteToNum,

@@ -88,6 +88,33 @@ app.get('/notes', (req, res) => {
 })
 
 
+// ---------------------------------
+// Get all available scales
+app.get('/scales', (req, res) => {
+  console.log('GET /scales')
+  
+  const json = ch.allScales
+  const status = json.error ? 400 : 200
+  res.status(status).json(json)
+})
+
+// ---------------------------------
+// Return a requested scale
+app.get('/scale/:note/:scale', (req, res) => {
+
+  const note = req.params.note
+  const scale = req.params.scale
+  const tr  = Number(url.parse(req.url, true).query.transpose || 0)
+
+  console.log(`GET ${req.url}`)
+  console.log(`Scale: ${note} ${scale}`)
+
+  const json = ch.getScale(note, scale, tr)
+  const status = json.error ? 400 : 200
+  res.status(status).json(json)
+})
+
+
 // -------------------------------
 // Test query
 app.get('/test', (req, res) => {

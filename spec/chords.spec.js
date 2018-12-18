@@ -48,6 +48,16 @@ describe("Rotates a list", () => {
   })
 })
 
+describe("Get scale info", () => {
+  it("returns a scale", () => {
+    const s1 = ch.findScaleByName(ch.allScales, "major")
+    expect(R.length(R.prop("name", s1))).toEqual(2)
+
+    const s2 = ch.getScale("C", "major")
+    expect(R.prop("scale", s2)).toEqual("C major")
+  })
+})
+
 // ---------------------------------
 describe("Transpose a list of notes", () => {
   it("transposes", () => {

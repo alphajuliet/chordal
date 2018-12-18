@@ -77,6 +77,30 @@ const allChords = [
 ]
 
 // ---------------------------------
+// Database of scales and modes
+// See https://en.wikipedia.org/wiki/List_of_musical_scales_and_modes
+// scales :: [Scale]
+const allScales = [
+  { name: ["major", "ionian"], notes: [0, 2, 4, 5, 7, 9, 11], description: "Ionian mode (I) or major scale" },
+  { name: ["dorian"], notes: [0, 2, 3, 5, 7, 9, 10], description: "Dorian mode (II)" },
+  { name: ["phrygian"], notes: [0, 1, 3, 5, 7, 8, 10], description: "Phrygian mode (III)" },
+  { name: ["lydian"], notes: [0, 2, 4, 6, 9, 11], description: "Lydian mode (IV)" },
+  { name: ["mixolydian"], notes: [0, 2, 4, 5, 9, 10], description: "Mixolydian mode (V)" },
+  { name: ["aeolian", "natural_minor"], notes: [0, 2, 3, 5, 7, 8, 10], description: "Aeolian mode (VI)" },
+  { name: ["locrian"], notes: [0, 1, 3, 5, 6, 8, 10], description: "Locrian mode (VII)" },
+  { name: ["minor", "harmonic_minor"], notes: [0, 2, 3, 5, 7, 8, 11], description: "Harmonic minor scale" },
+  { name: ["harmonic_major"], notes: [0, 2, 4, 5, 7, 8, 11], description: "Harmonic major scale" },
+  { name: ["blues"], notes: [0, 3, 5, 6, 7, 10], description: "Blues scale" },
+  { name: ["chromatic"], notes: R.range(0, 12), description: "Chromatic scale" },
+  { name: ["major_pentatonic"], notes: [0, 2, 4, 7, 9], description: "Major pentatonic scale" },
+  { name: ["minor_pentatonic"], notes: [0, 3, 4, 7, 10], description: "Major pentatonic scale" },
+  { name: ["neapolitan_major"], notes: [0, 1, 3, 5, 7, 9, 11], description: "Neapolitan major scale" },
+  { name: ["neapolitan_minor"], notes: [0, 1, 3, 5, 7, 8, 11], description: "Neapolitan major scale" },
+  { name: ["tritone"], notes: [0, 1, 4, 6, 7, 10], description: "Tritone scale (1 b2 3 b5 5 b7)" },
+  // { name: [], notes: [], description: "" },
+]
+
+// ---------------------------------
 // Conversions between note names (A-G) and numbers (0-11)
 
 // noteToNum :: Note -> Integer
@@ -122,7 +146,7 @@ const mapNotes = (fn) =>
     R.map(noteToNum))
 
 
-// Map over a chord
+// Map over a sequence of notes in a dictionary
 // mapChord :: ([Integer] -> [Integer]) -> Chord -> [[Note]]
 const mapChord = (fn) =>
   R.compose(
@@ -134,7 +158,7 @@ const mapChord = (fn) =>
 // ---------------------------------
 // findChordByName :: [Chord] -> String -> Chord
 const findChordByName = R.curry((chordList, chordName) => 
-  R.find(x => R.contains(chordName, R.prop('name', x)))(chordList))
+  R.find(x => R.contains(R.toLower(chordName), R.prop('name', x)))(chordList))
 
 // ---------------------------------
 // Get a chord, with optional transpose
@@ -150,6 +174,7 @@ const getChord = (rootNote, chord, tr = 0, inv = 0) => {
   // 7. Collapse alternate notes to a single value
   
   try {
+    // f :: [Integer] -> [Integer]
     const f = R.compose(
       rotateLeft(inv), 
       R.map(transpose(tr)), 
@@ -173,6 +198,38 @@ const getChord = (rootNote, chord, tr = 0, inv = 0) => {
   }
 }
 
+
+// ---------------------------------
+// findScaleByName :: [Scale] -> String -> Scale
+const findScaleByName = R.curry((scaleList, scaleName) => 
+  R.find(x => R.contains(R.toLower(scaleName), R.prop('name', x)))(scaleList))
+
+// ---------------------------------
+// getScale :: Note -> String -> { String, [Note] }
+const getScale = (rootNote, scale, tr = 0) => {
+
+  try {
+    // f :: [Integer] -> [Integer]
+    const f = R.compose(
+      R.map(transpose(tr)),
+      R.map(transpose(noteToNum(rootNote))))
+
+    const notes = R.compose(
+      collapseNotes(rootNote),
+      mapChord(f),
+      findScaleByName(allScales)
+    )(scale)
+
+    return {
+      "scale": `${rootNote} ${scale}`,
+      "notes": notes,
+      "transpose": tr
+    }
+  }
+  catch (err) {
+    return { "error": `${err}` }
+  }
+}
 
 // ---------------------------------
 // Transpose a list of notes
@@ -200,11 +257,14 @@ const test = (x) => {
 module.exports = Object.freeze({ 
   allNotes, 
   allChords, 
+  allScales,
   getChord,
+  getScale,
   transposeNotes,
 
   // For unit testing
   test,
+  findScaleByName,
   rotateLeft,
   noteToNum,
   numToNote,

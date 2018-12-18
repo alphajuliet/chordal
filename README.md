@@ -1,8 +1,13 @@
 # Chordal API
 
-A simple musical API focusing on chords. For a list of the available chords, see the first API call below. 
+A simple musical API focusing on enumerating named chords and scales. 
+
+For chords, a list of the available chords is found from the first API call below. 
 It includes most major and minor chords, including sevenths, diminished/augmented, and suspended chords. 
 A variety of alternative names are also catered for, e.g. maj7 = major7 = maj7th = major7th
+
+Similarly, for scales, a list of known scales and modes can be requested, and then a
+specific one requested with a given root note and optional transposition.
 
 ## API 
 
@@ -79,6 +84,20 @@ of played notes.
 | Request | Response |
 | ------- | -------- |
 |`GET /notes?list=C,D,E&transpose=1` | `{"transpose":1,"notes":["C#","D#","F"]}`|
+
+### List known scales
+
+`GET /scales`
+
+### Get a scale
+
+`GET /scale/<note>/<scale>?transpose=<n>`
+
+#### Examples
+
+| Request | Response |
+| ------- | -------- |
+|`GET /scale/Db/harmonic_minor&transpose=5` | `{"scale":"Db harmonic_minor","notes":["Gb","Ab","A","B","Db","D","F"]}`|
 
 ----
 

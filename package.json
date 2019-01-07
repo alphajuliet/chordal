@@ -9,10 +9,9 @@
   },
   "dependencies": {
     "express": "^4.16.3",
-    "ramda": "^0.25.0",
-    "ramda-maybe": "^0.18.0",
     "markdown-it": "^8.4.2",
-    "folktale": "^2.3.0"
+    "ramda": "^0.25.0",
+    "sanctuary": "^0.15.0"
   },
   "engines": {
     "node": "8.x"

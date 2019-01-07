@@ -4,7 +4,7 @@
 
 // Imports
 const R = require('ramda'),
-      Maybe = require('folktale/maybe')
+      S = require('sanctuary')
 
 // ---------------------------------
 // Utilities
@@ -163,7 +163,7 @@ const findChordByName = R.curry((chordList, chordName) =>
 // ---------------------------------
 // Get a chord, with optional transpose
 // getChord :: Note -> Chord -> Integer -> Integer -> { String, Integer, Integer, [Note] }
-const getChord = (rootNote, chord, tr = 0, inv = 0) => {
+const getChord = (rootNote, chord, opts = {}) => {
     
   // 1. Look up chord by name
   // 2. Get the note numbers
@@ -172,6 +172,9 @@ const getChord = (rootNote, chord, tr = 0, inv = 0) => {
   // 5. Rotate left (inversion) by inv
   // 6. Map back to note names
   // 7. Collapse alternate notes to a single value
+  
+  const tr = opts.transpose || 0,
+        inv = opts.inversion || 0
   
   try {
     // f :: [Integer] -> [Integer]
@@ -206,7 +209,9 @@ const findScaleByName = R.curry((scaleList, scaleName) =>
 
 // ---------------------------------
 // getScale :: Note -> String -> { String, [Note] }
-const getScale = (rootNote, scale, tr = 0) => {
+const getScale = (rootNote, scale, opts = {}) => {
+
+  const tr = opts.transpose || 0
 
   try {
     // f :: [Integer] -> [Integer]
